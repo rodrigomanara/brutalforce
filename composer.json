@@ -1,0 +1,24 @@
+{
+    "name": "root/brutalforce",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Rodrigo Manara",
+            "email": "rodrigomanara@yahoo.co.uk"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/http-foundation": "3.1.*",
+        "symfony/finder": "3.1.*",
+        "mustangostang/spyc": "^0.6.1",
+        "monolog/monolog": "^1.22",
+        "phpunit/phpunit": "5.7.0",
+        "symfony/filesystem": "^3.2" 
+    },
+    "autoload": {
+        "psr-4": {
+            "BrutalForce\\": "src/BrutalForce"
+        }
+    }
+}
