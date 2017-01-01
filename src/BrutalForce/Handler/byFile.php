@@ -84,6 +84,7 @@ class byFile extends ByAbstract implements ByInterface {
         $decode[$this->ip] = array(
             'count' => 0,
             'locked' => false,
+            'url' => $this->request->getRequestUri(),
             'time' => $this->time()
         );
 
@@ -109,6 +110,7 @@ class byFile extends ByAbstract implements ByInterface {
         $lock = $this->fileReadDecode($this->filePath);
         return $lock[$this->ip]['locked'];
     }
+
     /**
      * 
      * @param type $data
@@ -116,7 +118,7 @@ class byFile extends ByAbstract implements ByInterface {
      * @param type $count
      * @return int
      */
-    private function setLock($data , $decode , $count) {
+    private function setLock($data, $decode, $count) {
 
         $condition_1 = $this->timeDiff($data[$this->ip]['time']) <= 2;
         $condition_2 = $data[$this->ip]['locked'] == true;
@@ -145,9 +147,25 @@ class byFile extends ByAbstract implements ByInterface {
             $decode[$this->ip]['time'] = $this->time();
             $decode[$this->ip]['count'] = 0;
         }
-        
+
         return $decode;
     }
-    
+
+    /**
+     * 
+     * @param type $boolean
+     */
+    public function unLock($boolean = false) {
+
+        if ($boolean) {
+            $decode[$this->ip] = array(
+                'count' => 0,
+                'locked' => false,
+                'url' => $this->request->getRequestUri(),
+                'time' => $this->time()
+            );
+            $this->file->writeContent($this->filePath, json_encode($decode), "w");
+        }
+    }
 
 }

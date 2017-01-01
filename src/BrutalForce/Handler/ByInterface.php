@@ -16,4 +16,9 @@ interface ByInterface {
      * 
      */
     public function isLocked();
+    
+    /**
+     * 
+     */
+    public function unLock($boolean = false);
 }

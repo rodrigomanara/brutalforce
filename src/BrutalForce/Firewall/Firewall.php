@@ -17,10 +17,15 @@ class Firewall extends Holder {
      * 
      * @param type $path
      */
-    public function __construct($path) {
+    public function __construct($path , $unlock = false) {
 
         if ($this->init(Holder::TYPE_FILE, $path)) {
             $this->lock = true;
+        }
+        
+        if($unlock){
+            $this->forceUnlock($unlock);
+            $this->lock = false;
         }
     }
     /**

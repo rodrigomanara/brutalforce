@@ -32,6 +32,7 @@ class ByAbstract extends CheckTime {
     public function __construct(Request $request, $path = '') {
         $this->request = $request;
         $this->root = $path;
+        
     }
 
 }

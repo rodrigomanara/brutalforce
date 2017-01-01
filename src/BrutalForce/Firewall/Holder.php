@@ -11,8 +11,6 @@ use BrutalForce\Handler\byFile;
  */
 Abstract class Holder implements interfaceFirewall {
 
-    
-
     /**
      *
      * @var type 
@@ -30,6 +28,13 @@ Abstract class Holder implements interfaceFirewall {
      * @var type 
      */
     protected $file;
+
+    /**
+     *
+     * @var array 
+     */
+    protected $lockedDetails = array();
+
 
     ## set constant for types of method to use
 
@@ -49,7 +54,12 @@ Abstract class Holder implements interfaceFirewall {
         switch ($type) {
             case 'byFile';
                 $class = new byFile($request, $path);
+                
                 break;
+        }
+
+        if($this->lock){
+            $class->unLock(true);
         }
 
         if (is_callable(array($class, 'isLocked'))) {
@@ -57,5 +67,21 @@ Abstract class Holder implements interfaceFirewall {
         }
         return false;
     }
+    
 
+    /**
+     * 
+     * @param type $lock
+     */
+    public function forceUnlock($lock = false){
+        $this->lock = $lock;
+    }
+    
+    /**
+     * 
+     */
+    public function lockedDetails() {
+        
+    }
+    
 }

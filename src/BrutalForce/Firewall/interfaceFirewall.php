@@ -11,4 +11,7 @@ namespace BrutalForce\Firewall;
 interface interfaceFirewall {
 
     function isLocked();
+    
+    
+    function lockedDetails();
 }
