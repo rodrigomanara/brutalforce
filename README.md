@@ -10,4 +10,3 @@ Automaticly a file will be create and saved that ip and will save for futures re
 
 It is very simple setup and can be used in any frameworks.
 
-

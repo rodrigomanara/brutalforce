@@ -11,15 +11,13 @@ use BrutalForce\Handler\byFile;
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
 class Firewall extends Holder {
-
-    private $lock = false;
-
+            
     /**
      * 
      * @return type
      */
     public function isLocked() {
-        return $this->lock;
+        return $this->classLoader->isLocked();
     }
 
     /**
@@ -60,7 +58,7 @@ class Firewall extends Holder {
      */
     public function unLock($boolean = false) {
         if ($boolean) {
-            $this->classLoader->unLock(true);
+            $this->classLoader->unLock(true); 
         }
     }
 
