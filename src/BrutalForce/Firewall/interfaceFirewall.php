@@ -18,5 +18,5 @@ interface interfaceFirewall {
      * @param type $type
      * @param type $forceUnlock
      */
-    function inicializer($type = self::TYPE_FILE, $forceUnlock = false);
+    function initializer($type = self::TYPE_FILE, $forceUnlock = false);
 }

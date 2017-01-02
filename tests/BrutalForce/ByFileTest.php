@@ -21,7 +21,7 @@ class ByFileTest extends TestCase {
 
     public function testFile() {
         
-        $this->byfile->inicializer();
+        $this->byfile->initializer();
         
         $array = $this->byfile->fileReadDecode();
         foreach ($array as $key) {

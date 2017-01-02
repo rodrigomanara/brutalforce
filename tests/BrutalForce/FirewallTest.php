@@ -24,7 +24,7 @@ class FirewallTest extends TestCase {
      * 
      */
     public function testInicializer() {
-        $this->brutal->inicializer(Firewall::TYPE_FILE);
+        $this->brutal->initializer(Firewall::TYPE_FILE);
         $this->assertDirectoryExists(__FIREWALL . "/firewall");
     }
     /**
@@ -33,7 +33,7 @@ class FirewallTest extends TestCase {
     public function testIsLocked() {
 
         for ($i = 0; $i < 4; $i++) {
-            $this->brutal->inicializer(Firewall::TYPE_FILE);
+            $this->brutal->initializer(Firewall::TYPE_FILE);
         }
 
         $this->assertTrue($this->brutal->isLocked());
@@ -43,7 +43,7 @@ class FirewallTest extends TestCase {
      */
     public function testUnlocked() {
         for ($i = 0; $i < 4; $i++) {
-            $this->brutal->inicializer(Firewall::TYPE_FILE);
+            $this->brutal->initializer(Firewall::TYPE_FILE);
         }
         //force to unlock
         $this->brutal->unLock(true);

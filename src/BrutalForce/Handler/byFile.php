@@ -45,7 +45,7 @@ class byFile extends ByAbstract {
     /**
      * start the system to compile the file
      */
-    public function inicializer() {
+    public function initializer() {
         // start 
         $decode = array();
 

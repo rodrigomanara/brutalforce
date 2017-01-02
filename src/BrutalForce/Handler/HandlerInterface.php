@@ -8,6 +8,6 @@ namespace BrutalForce\Handler;
  */
 interface HandlerInterface {
    
-    public function inicializer();
+    public function initializer();
     
 }

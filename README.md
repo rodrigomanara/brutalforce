@@ -14,8 +14,9 @@ It is very simple setup and can be used in any frameworks.
 `
  $firewall = new BrutalForce\Firewall\Firewall(__DIR__);
 `
+
 `
- $firewall->inicializer(BrutalForce\Firewall\Firewall::TYPE_FILE);
+ $firewall->initializer(BrutalForce\Firewall\Firewall::TYPE_FILE);
 
     if ($firewall->isLocked()) {
         echo "wait 10 minutes" . PHP_EOL;

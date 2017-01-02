@@ -34,7 +34,7 @@ class Firewall extends Holder {
      * @param type $forceUnlock
      * @return boolean
      */
-    public function inicializer($type = self::TYPE_FILE, $forceUnlock = false) {
+    public function initializer($type = self::TYPE_FILE, $forceUnlock = false) {
 
         switch ($type) {
             case 'byFile';
