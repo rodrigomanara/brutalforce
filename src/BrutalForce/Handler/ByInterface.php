@@ -9,16 +9,20 @@ namespace BrutalForce\Handler;
  */
 interface ByInterface {
     
-    
-    public function inicializer();
-
     /**
-     * 
+     * check if the function is locked
      */
     public function isLocked();
     
     /**
-     * 
+     * unlock the value the file
      */
     public function unLock($boolean = false);
+    
+    
+    /**
+     * 
+     * @param path|name $mixed
+     */
+    public function fileReadDecode();
 }

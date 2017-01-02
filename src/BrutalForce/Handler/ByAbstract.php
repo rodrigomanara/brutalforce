@@ -2,15 +2,17 @@
 
 namespace BrutalForce\Handler;
 
-use \Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 use BrutalForce\Component\CheckTime;
-
+use BrutalForce\FileManager\File;
+use BrutalForce\Component\RequestWrapper;
+use BrutalForce\Handler\ByInterface;
 /**
  * Description of ByAbstract
  *
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
-class ByAbstract extends CheckTime {
+abstract class ByAbstract extends CheckTime implements ByInterface , HandlerInterface {
 
     /**
      * 
@@ -19,7 +21,7 @@ class ByAbstract extends CheckTime {
 
     /**
      *
-     * @var type 
+     * @var RequestWrapper 
      */
     protected $request;
 
@@ -29,10 +31,50 @@ class ByAbstract extends CheckTime {
      */
     protected $root;
 
-    public function __construct(Request $request, $path = '') {
-        $this->request = $request;
+    /**
+     *
+     * @var file physical path 
+     */
+    protected $filePath;
+
+    /**
+     *
+     * @var string request client IP  
+     */
+    protected $ip;
+
+    /**
+     * path is used to set the file path
+     * @var type 
+     */
+    protected $path;
+
+    /**
+     *
+     * @var File 
+     */
+    protected $file;
+
+
+    /**
+     * 
+     * @param Request $request
+     * @param string $path
+     */
+    public function __construct($path = '') {
+
+        $this->file = new File();
+        $this->request = new RequestWrapper();
+
         $this->root = $path;
+
+        $this->ip = $this->request->getClientIp();
+        $path = $this->root . DIRECTORY_SEPARATOR . self::FIREWALL;
+        $this->path = $path;
+        $this->filePath = $path . "{$this->ip}_locked.text";
         
+        // start the class run
+        $this->inicializer();
     }
 
 }

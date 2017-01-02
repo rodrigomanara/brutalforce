@@ -2,34 +2,18 @@
 
 namespace BrutalForce\Handler;
 
-use BrutalForce\FileManager\File;
-use BrutalForce\Handler\ByInterface;
+
+
 use BrutalForce\Handler\ByAbstract;
 
 /**
  * Description of ByFile
- *
+ *  
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
-class byFile extends ByAbstract implements ByInterface {
+class byFile extends ByAbstract {
 
-    /**
-     *
-     * @var file physical path 
-     */
-    private $filePath;
-
-    /**
-     *
-     * @var string request client IP  
-     */
-    private $ip;
-
-    /**
-     * path is used to set the file path
-     * @var type 
-     */
-    private $path;
+   
 
     /**
      * open the file and read the content
@@ -50,24 +34,15 @@ class byFile extends ByAbstract implements ByInterface {
         return $decode;
     }
 
-    /**
-     * call method to will be need it
-     */
-    public function setHelpers() {
-        $this->file = new File();
-        $this->ip = ($this->request->getClientIp()) ? $this->request->getClientIp() : Rand(1, 5);
-        $path = $this->root . DIRECTORY_SEPARATOR . self::FIREWALL;
-        $this->path = $path;
-        $this->filePath = $path . "/{$this->ip}_locked.text";
-    }
-
+    
     /**
      * 
      * @param type $file_path
      * @return type
      */
-    private function fileReadDecode($file_path) {
-        $content = file_get_contents($file_path);
+    public function fileReadDecode() {
+        
+        $content = file_get_contents($this->filePath);
         $data = json_decode($content, true);
         return $data;
     }
@@ -76,9 +51,7 @@ class byFile extends ByAbstract implements ByInterface {
      * start the system to compile the file
      */
     public function inicializer() {
-        // call helpers
-        $this->setHelpers();
-        // start 
+       // start 
         $decode = array();
 
         $decode[$this->ip] = array(
@@ -104,8 +77,6 @@ class byFile extends ByAbstract implements ByInterface {
      * @return type
      */
     public function isLocked() {
-
-        $this->inicializer();
 
         $lock = $this->fileReadDecode($this->filePath);
         return $lock[$this->ip]['locked'];
@@ -161,7 +132,7 @@ class byFile extends ByAbstract implements ByInterface {
             $decode[$this->ip] = array(
                 'count' => 0,
                 'locked' => false,
-                'url' => $this->request->getRequestUri(),
+                'url' => $this->request->getUri(),
                 'time' => $this->time()
             );
             $this->file->writeContent($this->filePath, json_encode($decode), "w");

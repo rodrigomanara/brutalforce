@@ -9,9 +9,14 @@ namespace BrutalForce\Firewall;
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
 interface interfaceFirewall {
+    
+    ## set constant for types of method to use
 
-    function isLocked();
-    
-    
-    function lockedDetails();
+    CONST TYPE_FILE = "byFile";
+    /**
+     * 
+     * @param type $type
+     * @param type $forceUnlock
+     */
+    function inicializer($type = self::TYPE_FILE, $forceUnlock = false);
 }

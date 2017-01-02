@@ -14,7 +14,7 @@ class File {
 
     /**
      *
-     * @var type 
+     * @var Filesystem 
      */
     public $fs;
 
@@ -27,7 +27,7 @@ class File {
 
     /**
      * 
-     * @param type $path
+     * @param string $path
      */
     public function create($path) {
 
@@ -38,16 +38,22 @@ class File {
         }
     }
 
-    public function writeContent($filename, $content , $type = "a" ) {
+    /**
+     * 
+     * @param string $filename
+     * @param string $content
+     * @param fopen $type
+     * @throws \Exception
+     */
+    public function writeContent($filename, $content, $type = "a") {
 
         if (file_exists($filename)) {
             $handle = fopen($filename, $type);
             fwrite($handle, $content);
             fclose($handle);
-        }else{
+        } else {
             throw new \Exception('file was not created');
         }
     }
- 
-    
+
 }
