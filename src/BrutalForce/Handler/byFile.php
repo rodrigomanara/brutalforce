@@ -2,8 +2,6 @@
 
 namespace BrutalForce\Handler;
 
-
-
 use BrutalForce\Handler\ByAbstract;
 
 /**
@@ -12,8 +10,6 @@ use BrutalForce\Handler\ByAbstract;
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
 class byFile extends ByAbstract {
-
-   
 
     /**
      * open the file and read the content
@@ -34,14 +30,13 @@ class byFile extends ByAbstract {
         return $decode;
     }
 
-    
     /**
      * 
      * @param type $file_path
      * @return type
      */
     public function fileReadDecode() {
-        
+
         $content = file_get_contents($this->filePath);
         $data = json_decode($content, true);
         return $data;
@@ -51,7 +46,7 @@ class byFile extends ByAbstract {
      * start the system to compile the file
      */
     public function inicializer() {
-       // start 
+        // start 
         $decode = array();
 
         $decode[$this->ip] = array(
@@ -66,6 +61,7 @@ class byFile extends ByAbstract {
         } else if (!is_file($this->filePath)) {
             $this->file->fs->touch($this->filePath);
         } else if (is_file($this->filePath)) {
+
             $decode = $this->_stage_two($this->filePath, $decode);
         }
 
@@ -96,13 +92,15 @@ class byFile extends ByAbstract {
         $condition_3 = $data[$this->ip]['locked'] == false;
         $condition_4 = $this->timeDiff($data[$this->ip]['time']) > 2;
         $condition_5 = $this->unlockTime($data[$this->ip]['time']);
+        //set counter from the counter saved
+        $decode[$this->ip]['count'] = $count;
 
         //if time request is less the 2 second and count is greatn than 3
         if ($condition_1) {
-            $decode[$this->ip]['count'] = $data[$this->ip]['count'] + 1;
+            $decode[$this->ip]['count'] = $count + 1;
         }
         //is count it greater than 3
-        if ($count > 3 && $condition_1) {
+        if ($count >= 2 && $condition_1) {
             $decode[$this->ip]['locked'] = true;
         }
         //if already locked || the diff is greater than 2 || lock time is less than 10 minutes

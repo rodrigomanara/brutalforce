@@ -7,12 +7,13 @@ use BrutalForce\Component\CheckTime;
 use BrutalForce\FileManager\File;
 use BrutalForce\Component\RequestWrapper;
 use BrutalForce\Handler\ByInterface;
+
 /**
  * Description of ByAbstract
  *
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
-abstract class ByAbstract extends CheckTime implements ByInterface , HandlerInterface {
+abstract class ByAbstract extends CheckTime implements ByInterface, HandlerInterface {
 
     /**
      * 
@@ -55,7 +56,6 @@ abstract class ByAbstract extends CheckTime implements ByInterface , HandlerInte
      */
     protected $file;
 
-
     /**
      * 
      * @param Request $request
@@ -68,11 +68,16 @@ abstract class ByAbstract extends CheckTime implements ByInterface , HandlerInte
 
         $this->root = $path;
 
-        $this->ip = $this->request->getClientIp();
+        if ($this->request->getClientIp()) {
+            $this->ip = $this->request->getClientIp();
+        } else {
+            $this->ip = 'localhost';
+        }
+
         $path = $this->root . DIRECTORY_SEPARATOR . self::FIREWALL;
         $this->path = $path;
         $this->filePath = $path . "{$this->ip}_locked.text";
-        
+
         // start the class run
         $this->inicializer();
     }
