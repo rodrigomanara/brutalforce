@@ -47,9 +47,8 @@ class Firewall extends Holder {
         }
 
         if (is_callable(array($this->classLoader, 'isLocked'))) {
-            return $this->classLoader->isLocked();
+            $this->lock =  $this->classLoader->isLocked();
         }
-        return false;
     }
 
     /**
