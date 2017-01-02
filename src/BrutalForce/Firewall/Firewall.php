@@ -21,6 +21,7 @@ class Firewall extends Holder {
     public function isLocked() {
         return $this->lock;
     }
+
     /**
      * 
      * @param type $mixed
@@ -28,6 +29,7 @@ class Firewall extends Holder {
     public function fileReadDecode() {
         $this->classLoader->fileReadDecode($this->path);
     }
+
     /**
      * 
      * @param type $type
@@ -35,20 +37,21 @@ class Firewall extends Holder {
      * @return boolean
      */
     public function inicializer($type = self::TYPE_FILE, $forceUnlock = false) {
-     
+
         switch ($type) {
             case 'byFile';
                 $this->classLoader = new byFile($this->path);
                 break;
         }
-            
+
         if ($forceUnlock) {
             $this->unLock($forceUnlock);
         }
 
         if (is_callable(array($this->classLoader, 'isLocked'))) {
-            $this->lock =  $this->classLoader->isLocked();
+            $this->lock = $this->classLoader->isLocked();
         }
+
     }
 
     /**
