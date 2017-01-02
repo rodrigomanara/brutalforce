@@ -100,7 +100,7 @@ class byFile extends ByAbstract {
             $decode[$this->ip]['count'] = $count + 1;
         }
         //is count it greater than 3
-        if ($count >= 2 && $condition_1) {
+        if ($count >= 3 && $condition_1) {
             $decode[$this->ip]['locked'] = true;
         }
         //if already locked || the diff is greater than 2 || lock time is less than 10 minutes
