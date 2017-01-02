@@ -34,7 +34,7 @@ class File {
         try {
             $this->fs->mkdir($path);
         } catch (IOExceptionInterface $e) {
-            echo "An error occurred while creating your directory at " . $e->getPath();
+            throw new Exception("An error occurred while creating your directory at " . $e->getPath());
         }
     }
 
