@@ -87,7 +87,7 @@ class byFile extends ByAbstract {
      */
     private function setLock($data, $decode, $count) {
 
-        $condition_1 = $this->timeDiff($data[$this->ip]['time']) <= 2;
+        $condition_1 = $this->timeDiff($data[$this->ip]['time']) <= 1;
         $condition_2 = $data[$this->ip]['locked'] == true;
         $condition_3 = $data[$this->ip]['locked'] == false;
         $condition_4 = $this->timeDiff($data[$this->ip]['time']) > 2;
