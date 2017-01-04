@@ -2,7 +2,6 @@
     "name": "rmanara/brutalforce",
     "type": "project",
     "license": "MIT",
-    "version": "1.0.0",
     "description": "help on secure website against brutal force attack",
     "keywords": [
         "brutal force",
