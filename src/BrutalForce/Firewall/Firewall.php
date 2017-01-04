@@ -70,7 +70,7 @@ class Firewall extends Holder {
             if ($this->request->isMethod('post') && $this->isLocked()){
                 return $this->recaptcha();
             }elseif ($this->request->isMethod('get') && $this->isLocked()) {
-                return self::getCaptchaForm();
+                return $this->getCaptchaForm();
             }
         } catch (\Exception $e) {
             throw  new Exception($e->getMessage() , $e->getCode());

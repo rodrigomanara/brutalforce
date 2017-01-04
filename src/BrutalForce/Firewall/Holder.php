@@ -83,7 +83,7 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
      * 
      * @return type
      */
-    protected static function getCaptchaForm() {
+    protected  function getCaptchaForm() {
         $lang = $this->request->getLocale();
         $form = "<div class=\"g-recaptcha\" data-sitekey=\"{$this->siteKey}\"></div><script type=\"text/javascript\" src=\"https://www.google.com/recaptcha/api.js?hl={ $lang }\"></script>";
         return $form;
