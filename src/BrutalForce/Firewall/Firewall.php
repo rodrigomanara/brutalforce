@@ -11,7 +11,7 @@ use BrutalForce\Handler\byFile;
  * @author Rodrigo Manara <me@rodrigomanara.co.uk>
  */
 class Firewall extends Holder {
-            
+
     /**
      * 
      * @return type
@@ -49,7 +49,6 @@ class Firewall extends Holder {
         if (is_callable(array($this->classLoader, 'isLocked'))) {
             $this->lock = $this->classLoader->isLocked();
         }
-
     }
 
     /**
@@ -58,7 +57,23 @@ class Firewall extends Holder {
      */
     public function unLock($boolean = false) {
         if ($boolean) {
-            $this->classLoader->unLock(true); 
+            $this->classLoader->unLock(true);
+        }
+    }
+    /**
+     * 
+     * @return type
+     * @throws Exception
+     */
+    public function verify() {
+        try {
+            if ($this->request->isMethod('post') && $this->isLocked()){
+                return $this->recaptcha();
+            }elseif ($this->request->isMethod('post') && $this->isLocked()) {
+                return self::getCaptchaForm();
+            }
+        } catch (\Exception $e) {
+            throw  new Exception($e->getMessage() , $e->getCode());
         }
     }
 
