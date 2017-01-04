@@ -105,10 +105,10 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
                 $this->unLock(true);
                 return $this->isLocked();
             } else {
-                throw new Exception("The following error was returned" . $response->getErrorCodes());
+                throw new \Exception("The following error was returned" . $response->getErrorCodes());
             }
         } else {
-            throw new Exception('SiteKey and Secret is null');
+            throw new \Exception('SiteKey and Secret is null');
         }
     }
 
