@@ -73,7 +73,7 @@ class Firewall extends Holder {
                 return $this->getCaptchaForm();
             }
         } catch (\Exception $e) {
-            throw  new Exception($e->getMessage() , $e->getCode());
+            throw  new \Exception($e->getMessage() , $e->getCode());
         }
     }
 
