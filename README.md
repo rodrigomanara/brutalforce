@@ -7,7 +7,7 @@
 # brutalforce
 
 * Repository: https://github.com/rodrigomanara/brutalforce
-* Version: 1.0.5
+* Version: 1.0.5-1
 
 Brute-Force method is used from many hackers but the <b>brutalforce</b> will help you void this problem by check  the client IP and will count how many request in less than a 2 seconds how many request was done.
 Automaticly a file will be create and saved that ip and will save for futures request.
