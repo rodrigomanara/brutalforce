@@ -12,15 +12,28 @@ It is very simple setup and can be used in any frameworks.
 
 ### very simple setup
 `
- $firewall = new BrutalForce\Firewall\Firewall(__DIR__);
+$firewall = new BrutalForce\Firewall\Firewall(__DIR__, "sitekey", "secret");
 `
-
+## specify type of handler
 `
  $firewall->initializer(BrutalForce\Firewall\Firewall::TYPE_FILE);
-
-    if ($firewall->isLocked()) {
-        echo "wait 10 minutes" . PHP_EOL;
+`
+##check if the firewall is locked
+`
+if ($firewall->isLocked()) {
+    // here you check the recaptcha is already able to display
+    if ($firewall->verify()->recaptcha['valid'] == false) {
+        echo "<form method='post' action=''>";
+        // diplay message 
+        echo $firewall->verify()->recaptcha['form_message'];
+        // show input
+        echo $firewall->verify()->recaptcha['form'];
+        
+        echo "<button>send</button></form>";
     } else {
-        echo "free to go". PHP_EOL;
+        echo $firewall->verify()->recaptcha['form_message']; PHP_EOL;
+    }
+} else {
+    echo "free to go" . PHP_EOL;
 }
 `
