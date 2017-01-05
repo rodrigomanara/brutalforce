@@ -66,20 +66,18 @@ class Firewall extends Holder {
 
     /**
      * 
-     * @return type
-     * @throws Exception
+     * @return $this
      */
     public function verify() {
-        try {
-
-            if ($this->request->isMethod('post') && $this->isLocked()) {
-                $this->recaptcha = $this->callRecaptcha();
-            } elseif ($this->request->isMethod('get') && $this->isLocked()) {
-                $this->recaptcha = $this->getCaptchaForm();
-            }
-        } catch (\Exception $e) {
-            throw new \Exception($e->getMessage(), $e->getCode());
+        if ($this->request->isMethod('post') && $this->isLocked()) {
+            $this->recaptcha = $this->callRecaptcha();
         }
+
+        $checked = $this->recaptcha;
+        if ($this->request->isMethod('get') && $this->isLocked() || isset($checked['valid']) && $checked['valid'] == false) {
+            $this->recaptcha = $this->getCaptchaForm();
+        }
+
 
         return $this;
     }

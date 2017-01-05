@@ -1,6 +1,6 @@
 {
     "name": "rmanara/brutalforce",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "description": "help on secure website against brutal force attack",
     "keywords": [
