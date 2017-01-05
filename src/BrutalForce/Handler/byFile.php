@@ -20,9 +20,18 @@ class byFile extends ByAbstract {
     private function _stage_two($file_path, $decode) {
 
         $data = $this->fileReadDecode($file_path);
-
+        
+        
         if (isset($data[$this->ip])) {
-            $decode[$this->ip]['time'] = $data[$this->ip]['time'];
+            
+            $decode[$this->ip] = array(
+                'count' => $data[$this->ip]['count'],
+                'locked' => $data[$this->ip]['locked'],
+                'url' => $data[$this->ip]['url'],
+                'time' => $data[$this->ip]['time'],
+                'verify' => $data[$this->ip]['verify']
+            );
+            
             $count = $data[$this->ip]['count'];
             $decode = $this->setLock($data, $decode, $count);
         }
@@ -49,13 +58,15 @@ class byFile extends ByAbstract {
         // start 
         $decode = array();
 
-        $decode[$this->ip] = array(
-            'count' => 0,
-            'locked' => false,
-            'url' => $this->request->getRequestUri(),
-            'time' => $this->time()
-        );
-
+        if (!is_file($this->filePath)) {
+            $decode[$this->ip] = array(
+                'count' => 0,
+                'locked' => false,
+                'url' => $this->request->getRequestUri(),
+                'time' => $this->time(),
+                'verify' => false
+            );
+        }
         if (!is_dir($this->path)) {
             $this->file->create($this->path);
         } else if (!is_file($this->filePath)) {
@@ -75,7 +86,17 @@ class byFile extends ByAbstract {
     public function isLocked() {
 
         $lock = $this->fileReadDecode($this->filePath);
-        return $lock[$this->ip]['locked'];
+
+        $cond_1 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == false;
+        $cond_2 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == true;
+
+        if ($cond_1) {
+            return true;
+        } elseif ($cond_2) {
+            return false;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -131,7 +152,8 @@ class byFile extends ByAbstract {
                 'count' => 0,
                 'locked' => false,
                 'url' => $this->request->getUri(),
-                'time' => $this->time()
+                'time' => $this->time(),
+                'verify' => true
             );
             $this->file->writeContent($this->filePath, json_encode($decode), "w");
         }

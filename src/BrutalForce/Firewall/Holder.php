@@ -58,7 +58,7 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
      *
      * @var ReCaptcha 
      */
-    protected $recaptch;
+    private $recaptcha;
 
     /**
      *
@@ -83,10 +83,11 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
      * 
      * @return type
      */
-    protected  function getCaptchaForm() {
+    protected function getCaptchaForm() {
         $lang = $this->request->getLocale();
         $form = "<div class=\"g-recaptcha\" data-sitekey=\"{$this->siteKey}\"></div><script type=\"text/javascript\" src=\"https://www.google.com/recaptcha/api.js?hl={ $lang }\"></script>";
-        return $form;
+
+        return array("valid" => false, "form_message" => "", "form" => $form);
     }
 
     /**
@@ -94,21 +95,22 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
      * @return boolean
      * @throws Exception
      */
-    protected function recaptcha() {
+    protected function callRecaptcha() {
 
-        if ($this->request->isMethod('post') && !is_null($this->siteKey) && !is_null($this->secret)) {
 
-            $this->recaptch = new ReCaptcha($this->secret);
-            $response = $this->recaptch->verify($this->request->get('g-recaptcha-response'), $this->request->getClientIp());
+        if ($this->request->isMethod('post') && !is_null($this->siteKey) && !is_null($this->secret) && $this->request->get('g-recaptcha-response')) {
 
+            $this->recaptcha = new ReCaptcha($this->secret);
+            $response = $this->recaptcha->verify($this->request->get('g-recaptcha-response'), $this->request->getClientIp());
             if ($response->isSuccess()) {
                 $this->unLock(true);
-                return $this->isLocked();
+                return array("valid" => true, "form_message" => "file unlocked", "form" => null);
             } else {
-                throw new \Exception("The following error was returned" . $response->getErrorCodes());
+                $codes = implode(",", $response->getErrorCodes());
+                return array("valid" => false, "form_message" => "The following error was returned: " . $codes, "form" => null);
             }
         } else {
-            throw new \Exception('SiteKey and Secret is null');
+            return array("valid" => false, "form_message" => "TSiteKey and Secret is null or form has been posted wihout any values", "form" => null);
         }
     }
 

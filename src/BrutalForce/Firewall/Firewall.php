@@ -13,6 +13,13 @@ use BrutalForce\Handler\byFile;
 class Firewall extends Holder {
 
     /**
+     * will have response from recaptchar
+     * <br/> array("valid" => boolean, <br/> "form_message" => string <br/>, "form" => string <br/>);
+     * @var mixed 
+     */
+    public $recaptcha;
+
+    /**
      * 
      * @return type
      */
@@ -45,10 +52,6 @@ class Firewall extends Holder {
         if ($forceUnlock) {
             $this->unLock($forceUnlock);
         }
-
-        if (is_callable(array($this->classLoader, 'isLocked'))) {
-            $this->lock = $this->classLoader->isLocked();
-        }
     }
 
     /**
@@ -60,6 +63,7 @@ class Firewall extends Holder {
             $this->classLoader->unLock(true);
         }
     }
+
     /**
      * 
      * @return type
@@ -67,14 +71,17 @@ class Firewall extends Holder {
      */
     public function verify() {
         try {
-            if ($this->request->isMethod('post') && $this->isLocked()){
-                return $this->recaptcha();
-            }elseif ($this->request->isMethod('get') && $this->isLocked()) {
-                return $this->getCaptchaForm();
+
+            if ($this->request->isMethod('post') && $this->isLocked()) {
+                $this->recaptcha = $this->callRecaptcha();
+            } elseif ($this->request->isMethod('get') && $this->isLocked()) {
+                $this->recaptcha = $this->getCaptchaForm();
             }
         } catch (\Exception $e) {
-            throw  new \Exception($e->getMessage() , $e->getCode());
+            throw new \Exception($e->getMessage(), $e->getCode());
         }
+
+        return $this;
     }
 
 }
