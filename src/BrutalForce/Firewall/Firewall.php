@@ -32,7 +32,7 @@ class Firewall extends Holder {
      * @param type $mixed
      */
     public function fileReadDecode() {
-        $this->classLoader->fileReadDecode($this->path);
+        return $this->classLoader->fileReadDecode();
     }
 
     /**
