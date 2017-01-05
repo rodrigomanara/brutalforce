@@ -4,11 +4,12 @@
     "license": "MIT",
     "description": "help on secure website against brutal force attack",
     "keywords": [
-        "brutal force",
-        "extension",
-        "voiding",
+        "brute-force",
+        "recaptcha",
+        "ip track",
         "firewall",
-        "hacking"
+        "blocking",
+        "spam"
     ],
     "authors": [
         {
