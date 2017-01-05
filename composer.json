@@ -2,7 +2,7 @@
     "name": "rmanara/brutalforce",
     "type": "library",
     "license": "MIT",
-    "version" : "1.0.2",
+    "version" : "1.0.3",
     "description": "help on secure website against brutal force attack",
     "keywords": [
         "brute-force",

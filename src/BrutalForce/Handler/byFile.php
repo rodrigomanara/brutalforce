@@ -158,5 +158,23 @@ class byFile extends ByAbstract {
             $this->file->writeContent($this->filePath, json_encode($decode), "w");
         }
     }
+    
+    /**
+     * 
+     * @param type $boolean
+     */
+    public function resetLock($boolean = false) {
+
+        if ($boolean) {
+            $decode[$this->ip] = array(
+                'count' => 0,
+                'locked' => false,
+                'url' => $this->request->getUri(),
+                'time' => $this->time(),
+                'verify' => false
+            );
+            $this->file->writeContent($this->filePath, json_encode($decode), "w");
+        }
+    }
 
 }
