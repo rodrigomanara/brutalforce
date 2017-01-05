@@ -97,7 +97,6 @@ Abstract class Holder implements interfaceFirewall, ByInterface {
      */
     protected function callRecaptcha() {
 
-
         if ($this->request->isMethod('post') && !is_null($this->siteKey) && !is_null($this->secret) && $this->request->get('g-recaptcha-response')) {
 
             $this->recaptcha = new ReCaptcha($this->secret);

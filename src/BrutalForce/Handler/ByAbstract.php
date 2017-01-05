@@ -78,6 +78,15 @@ abstract class ByAbstract extends CheckTime implements ByInterface, HandlerInter
         $this->path = $path;
         $this->filePath = $path . "{$this->ip}_locked.text";
 
+        //set dir
+        if (!is_dir($this->path)) {
+            $this->file->create($this->path);
+        }
+        //set file
+        if (!is_file($this->filePath)) {
+            $this->file->fs->touch($this->filePath);
+        }
+        
         // start the class run
         $this->initializer();
     }

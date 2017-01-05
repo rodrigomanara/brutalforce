@@ -57,25 +57,23 @@ class byFile extends ByAbstract {
     public function initializer() {
         // start 
         $decode = array();
-
-        if (!is_file($this->filePath)) {
+        
+   
+        if (!is_file($this->filePath) or !isset($decode[$this->ip])) {
             $decode[$this->ip] = array(
                 'count' => 0,
                 'locked' => false,
-                'url' => $this->request->getRequestUri(),
+                'url' => $this->request->getUri(),
                 'time' => $this->time(),
                 'verify' => false
             );
         }
-        if (!is_dir($this->path)) {
-            $this->file->create($this->path);
-        } else if (!is_file($this->filePath)) {
-            $this->file->fs->touch($this->filePath);
-        } else if (is_file($this->filePath)) {
-
+        
+        if (is_file($this->filePath)) {
             $decode = $this->_stage_two($this->filePath, $decode);
         }
 
+        
         $this->file->writeContent($this->filePath, json_encode($decode), "w");
     }
 
@@ -89,11 +87,14 @@ class byFile extends ByAbstract {
 
         $cond_1 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == false;
         $cond_2 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == true;
-
+        $cond_3 = $lock[$this->ip]['count'] % 3 && $lock[$this->ip]['verify'] == true;
+        
         if ($cond_1) {
             return true;
         } elseif ($cond_2) {
             return false;
+        } elseif ($cond_3) {
+            return true;
         } else {
             return false;
         }

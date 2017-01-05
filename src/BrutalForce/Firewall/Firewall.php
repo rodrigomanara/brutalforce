@@ -32,7 +32,8 @@ class Firewall extends Holder {
      * @param type $mixed
      */
     public function fileReadDecode() {
-        return $this->classLoader->fileReadDecode();
+        $file = $this->classLoader->fileReadDecode();
+        return isset($file[$this->request->getClientIp()]) ? $file[$this->request->getClientIp()] : array();
     }
 
     /**
@@ -43,11 +44,7 @@ class Firewall extends Holder {
      */
     public function initializer($type = self::TYPE_FILE, $forceUnlock = false) {
 
-        switch ($type) {
-            case 'byFile';
-                $this->classLoader = new byFile($this->path);
-                break;
-        }
+        $this->classLoader = new byFile($this->path);
 
         if ($forceUnlock) {
             $this->unLock($forceUnlock);
@@ -61,6 +58,16 @@ class Firewall extends Holder {
     public function unLock($boolean = false) {
         if ($boolean) {
             $this->classLoader->unLock(true);
+        }
+    }
+
+    /**
+     * 
+     * @param type $boolean
+     */
+    public function resetLock($boolean = false) {
+        if ($boolean) {
+            $this->classLoader->resetLock(true);
         }
     }
 

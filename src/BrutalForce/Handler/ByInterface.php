@@ -20,6 +20,9 @@ interface ByInterface {
     public function unLock($boolean = false);
     
     
+    public function resetLock($boolean = false);
+
+
     /**
      * 
      * @param path|name $mixed
