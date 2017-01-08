@@ -86,15 +86,12 @@ class byFile extends ByAbstract {
         $lock = $this->fileReadDecode($this->filePath);
 
         $cond_1 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == false;
-        $cond_2 = $lock[$this->ip]['count'] < 3 && $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == true;
-        $cond_3 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['count'] > 3 && $lock[$this->ip]['verify'] == true;
-
+        $cond_2 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == true;
+        
         if ($cond_1) {
             return true;
         } elseif ($cond_2) {
             return false;
-        } elseif ($cond_3) {
-            return true;
         } else {
             return false;
         }
