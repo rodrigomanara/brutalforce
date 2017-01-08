@@ -20,10 +20,10 @@ class byFile extends ByAbstract {
     private function _stage_two($file_path, $decode) {
 
         $data = $this->fileReadDecode($file_path);
-        
-        
+
+
         if (isset($data[$this->ip])) {
-            
+
             $decode[$this->ip] = array(
                 'count' => $data[$this->ip]['count'],
                 'locked' => $data[$this->ip]['locked'],
@@ -31,7 +31,7 @@ class byFile extends ByAbstract {
                 'time' => $data[$this->ip]['time'],
                 'verify' => $data[$this->ip]['verify']
             );
-            
+
             $count = $data[$this->ip]['count'];
             $decode = $this->setLock($data, $decode, $count);
         }
@@ -57,9 +57,9 @@ class byFile extends ByAbstract {
     public function initializer() {
         // start 
         $decode = array();
-        
-   
-        if (!is_file($this->filePath) or !isset($decode[$this->ip])) {
+
+
+        if (!is_file($this->filePath) or ! isset($decode[$this->ip])) {
             $decode[$this->ip] = array(
                 'count' => 0,
                 'locked' => false,
@@ -68,12 +68,12 @@ class byFile extends ByAbstract {
                 'verify' => false
             );
         }
-        
+
         if (is_file($this->filePath)) {
             $decode = $this->_stage_two($this->filePath, $decode);
         }
 
-        
+
         $this->file->writeContent($this->filePath, json_encode($decode), "w");
     }
 
@@ -88,7 +88,7 @@ class byFile extends ByAbstract {
         $cond_1 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == false;
         $cond_2 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['verify'] == true;
         $cond_3 = $lock[$this->ip]['locked'] == true && $lock[$this->ip]['count'] > 3 && $lock[$this->ip]['verify'] == true;
-        
+
         if ($cond_1) {
             return true;
         } elseif ($cond_2) {
@@ -124,10 +124,12 @@ class byFile extends ByAbstract {
         //is count it greater than 3
         if ($count >= 3 && $condition_1) {
             $decode[$this->ip]['locked'] = true;
+            $decode[$this->ip]['url'] = $this->request->getUri();
         }
         //if already locked || the diff is greater than 2 || lock time is less than 10 minutes
         if ($condition_2 && $condition_4 && $condition_5 == false) { //locked 
             $decode[$this->ip]['locked'] = true;
+            $decode[$this->ip]['url'] = $this->request->getUri();
         }
         //not locked || request is greater than 2 secs
         if ($condition_3 && $condition_4) { // locked false
@@ -159,7 +161,7 @@ class byFile extends ByAbstract {
             $this->file->writeContent($this->filePath, json_encode($decode), "w");
         }
     }
-    
+
     /**
      * 
      * @param type $boolean
