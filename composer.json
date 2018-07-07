@@ -2,7 +2,7 @@
     "name": "rmanara/brutalforce",
     "type": "library",
     "license": "MIT",
-    "version" : "1.0.7",
+    "version" : "1.0.7.1",
     "description": "help on secure website against brutal force attack",
     "keywords": [
         "brute-force",
@@ -22,7 +22,7 @@
     "homepage": "https://github.com/rodrigomanara/brutalforce",
     "require": {
         "php": ">=5.6.1",
-        "symfony/http-foundation": "3.1.*",
+        "symfony/http-foundation": "3.2.*",
          "phpunit/phpunit": "5.7.0",
         "symfony/filesystem": "^3.2",
         "google/recaptcha": "^1.1" 
