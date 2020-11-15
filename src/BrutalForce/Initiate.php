@@ -15,7 +15,6 @@ class Initiate extends Pass
     public function run()
     {
 
-
         $pass = $this->shouldI();
         if(!$pass)
         {
