@@ -1,0 +1,43 @@
+<?php
+
+namespace BrutalForce\Cache;
+
+abstract class KeepinMemory
+{
+
+    /**
+     *
+     * @return string|null
+     */
+    private static function getIP(): ?string
+    {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+
+    /**
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    protected static function setSession(string $key, $value): void
+    {
+        $_SESSION[self::getIP()][$key] = $value;
+    }
+
+    /**
+     *
+     * @param string $key
+     * @return mixed
+     */
+    protected static function getSession(string $key)
+    {
+        return $_SESSION[self::getIP()][$key];
+    }
+
+    protected static function UnsetSession(string $key)
+    {
+        unset($_SESSION[self::getIP()][$key]);
+    }
+
+}

@@ -2,7 +2,7 @@
     "name": "rmanara/brutalforce",
     "type": "library",
     "license": "MIT",
-    "version" : "1.0.7.1",
+    "version" : "2.0.0",
     "description": "help on secure website against brutal force attack",
     "keywords": [
         "brute-force",
@@ -15,17 +15,14 @@
     "authors": [
         {
             "name": "Rodrigo Manara",
-            "email": "rodrigomanara@yahoo.co.uk",
+            "email": "me@rodrigomanara.co.uk",
             "homepage": "http://rodrigomanara.co.uk"
         }
     ],
     "homepage": "https://github.com/rodrigomanara/brutalforce",
     "require": {
         "php": ">=5.6.1",
-        "symfony/http-foundation": "3.2.*",
-         "phpunit/phpunit": "5.7.0",
-        "symfony/filesystem": "^3.2",
-        "google/recaptcha": "^1.1" 
+          "phpunit/phpunit": "*" 
     },
     "autoload": {
         "psr-4": {
@@ -44,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     },
     "minimum-stability": "stable",
