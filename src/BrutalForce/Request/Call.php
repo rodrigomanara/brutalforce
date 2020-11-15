@@ -16,9 +16,11 @@ abstract class Call
      * @param string $secret
      * @param string $token
      */
-    public static function verifiy(string $secret, string $token): bool
+    public static function verifiy(string $secret, ?string $token): bool
     {
-
+        
+        if(!$token) return false;
+        //
         $url = sprintf(self::URL, urlencode($secret), urlencode($token));
 
         $response = file_get_contents($url);

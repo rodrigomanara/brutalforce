@@ -1,20 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         bootstrap="tests/bootstrap.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" 
          backupGlobals="true" 
-         backupStaticAttributes="false"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="true"
-         stopOnFailure="false"
-         syntaxCheck="false"
+         backupStaticAttributes="false" 
+         bootstrap="./tests/bootstrap.php" 
+         cacheResult="false" 
+         colors="true" 
+         convertErrorsToExceptions="true" 
+         convertNoticesToExceptions="true" 
+         convertWarningsToExceptions="true" 
+         forceCoversAnnotation="false" 
+         processIsolation="false" 
+         stopOnError="false" 
+         stopOnFailure="false" 
+         stopOnIncomplete="false" 
+         stopOnSkipped="false" 
+         stopOnRisky="false" 
+         testSuiteLoaderFile="./tests/BrutalForce/InitiateTest.php" 
+         timeoutForSmallTests="1" 
+         timeoutForMediumTests="10" 
+         timeoutForLargeTests="60" 
          verbose="true">
-   <testsuites>
-        <testsuite name="The project's test suite">
-            <directory>./tests/BrutaForce</directory> 
+            
+    <coverage/>
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>./tests/BrutalForce/</directory>
         </testsuite>
     </testsuites>
-   
 </phpunit>
