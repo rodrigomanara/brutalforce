@@ -17,13 +17,13 @@ class Pass extends GateMan
      *
      * @var string
      */
-    private string $site_key;
+    private $site_key;
 
     /**
      *
      * @var string
      */
-    private string $secret;
+    private $secret;
 
     /**
      *

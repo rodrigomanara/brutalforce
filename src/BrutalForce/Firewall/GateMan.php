@@ -51,7 +51,6 @@ class GateMan extends KeepinMemory
                 $this->reset();
                 return true;
             }
-            //not allowed now
             return false;
         }
 
