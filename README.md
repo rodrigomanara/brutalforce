@@ -29,9 +29,9 @@ $secret = "";
 //
 $init = new Initiate($site_key, $secret);
 //display on the footer after the jQuery url been loaded
-$form = $init->getScript($site_key);
+$form = $init->getScript();
 //display this google link on the header
-$header = $init->getUrl($site_key);
+$header = $init->getUrl();
 //this check needs to be done after the submit
 $allowed = $init->run();
 

@@ -63,12 +63,13 @@ class Pass extends GateMan
     }
 
     /**
-     *
-     * @param string $site_key
+     * 
      * @return string
      */
-    public static function getScript(string $site_key): string
+    public static function getScript(): string
     {
+        $site_key = $this->site_key;
+        
         ob_start();
         ?>
         <script>
@@ -90,13 +91,14 @@ class Pass extends GateMan
         return ob_get_contents();
     }
 
-    /**
-     *
-     * @param string $site_key
-     * @return string
-     */
-    public static function getUrl(string $site_key): string
+   /**
+    * 
+    * @return string
+    */
+    public static function getUrl(): string
     {
+        $site_key = $this->site_key;
+        
         $part1 = "<script src=\"https://www.google.com/recaptcha/api.js?render=%s\"></script>";
         return sprintf($part1, $site_key);
     }
