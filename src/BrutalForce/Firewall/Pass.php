@@ -66,7 +66,7 @@ class Pass extends GateMan
      * 
      * @return string
      */
-    public static function getScript(): string
+    public function getScript(): string
     {
         $site_key = $this->site_key;
         
@@ -95,7 +95,7 @@ class Pass extends GateMan
     * 
     * @return string
     */
-    public static function getUrl(): string
+    public  function getUrl(): string
     {
         $site_key = $this->site_key;
         

@@ -22,7 +22,7 @@
     "homepage": "https://github.com/rodrigomanara/brutalforce",
     "require": {
         "php": ">=5.6.1",
-          "phpunit/phpunit": "*" 
+          "phpunit/phpunit": "8.*" 
     },
     "autoload": {
         "psr-4": {

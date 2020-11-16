@@ -21,8 +21,7 @@
          timeoutForMediumTests="10" 
          timeoutForLargeTests="60" 
          verbose="true">
-            
-    <coverage/>
+        
     <testsuites>
         <testsuite name="Tests">
             <directory>./tests/BrutalForce/</directory>

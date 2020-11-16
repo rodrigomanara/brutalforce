@@ -13,15 +13,25 @@ use BrutalForce\Initiate;
 class InitiateTest extends TestCase
 {
 
+    const holder = 'TESTHOLDER';
+
     /**
      * 
      * @return void
      */
-    public function testJSFile(): void
+    public function testJSScript(): void
     {
+        $js = (new Initiate(self::holder, self::holder))->getScript();
+        $this->assertIsString($js);
+    }
 
-        $sub = $this->createMock(Initiate::class);
-        
+    /**
+     * 
+     * @return void
+     */
+    public function testJSUrl(): void
+    {
+        $this->assertIsString((new Initiate(self::holder, self::holder))->getUrl());
     }
 
     /**
@@ -30,7 +40,10 @@ class InitiateTest extends TestCase
      */
     public function testSession(): void
     {
+        
+        $session = (new Initiate(self::holder, self::holder));
         //
+        $_SERVER['REMOTE_ADDR'] =  '192.168.1.1';
         $ip = $_SERVER['REMOTE_ADDR'];
         //
         $this->assertIsBool(isset($_SESSION[$ip]['wellcome']));
