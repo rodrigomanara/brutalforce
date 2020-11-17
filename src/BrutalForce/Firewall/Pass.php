@@ -41,12 +41,16 @@ class Pass extends GateMan
      * @param string|null $token
      * @return boolean
      */
-    protected function shouldI(?string $token)
+    protected function shouldI(?string $token = null)
     {
 
         if($this->security())
         {
             return true;
+        }
+        // if there is not token it will not going to run
+        if(!$token){
+            return false;
         }
         //inject google string and configuration on the page
         return Call::verifiy($this->secret, $token);
@@ -84,11 +88,12 @@ class Pass extends GateMan
                     });
                 });
             }
-
         </script>
         <?php
         ob_clean();
-        return ob_get_contents();
+        $data = ob_get_contents();
+        ob_end_flush();
+        return $data;
     }
 
    /**

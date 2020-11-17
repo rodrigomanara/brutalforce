@@ -4,6 +4,7 @@ namespace BrutalForce\Test;
 
 use PHPUnit\Framework\TestCase;
 use BrutalForce\Initiate;
+use BrutalForce\Request\Call;
 
 /**
  * Description of Initiate
@@ -19,37 +20,64 @@ class InitiateTest extends TestCase
      * 
      * @return void
      */
-    public function testJSScript(): void
+    public function testRatio(): void
     {
-        $js = (new Initiate(self::holder, self::holder))->getScript();
-        $this->assertIsString($js);
+
+        $test0 = [
+            Call::threshold(0.0),
+            Call::threshold(0.1),
+            Call::threshold(0.2),
+            Call::threshold(0.3),
+            Call::threshold(0.4)
+        ];
+
+        foreach ($test0 as $test) {
+            $this->assertFalse($test, '');
+        }
+
+        $test1 = [
+            Call::threshold(0.5),
+            Call::threshold(0.6),
+            Call::threshold(0.7),
+            Call::threshold(0.8),
+            Call::threshold(0.9),
+            Call::threshold(1.0)
+        ];
+
+        foreach ($test1 as $test) {
+            $this->assertTrue($test);
+        }
     }
 
     /**
      * 
      * @return void
      */
-    public function testJSUrl(): void
+    public function testJS(): void
     {
-        $this->assertIsString((new Initiate(self::holder, self::holder))->getUrl());
-    }
 
+        $js = new Initiate('test1', 'test2');
+        $this->assertIsString($js->getScript());
+        $this->assertIsString($js->getUrl());
+    }
     /**
      * 
      * @return void
      */
     public function testSession(): void
     {
-        
-        $session = (new Initiate(self::holder, self::holder));
-        //
-        $_SERVER['REMOTE_ADDR'] =  '192.168.1.1';
+        if (!isset( $_SESSION ))
+            $_SESSION = [];
+
+        $_SERVER['REMOTE_ADDR'] = '192.168.0.1';
         $ip = $_SERVER['REMOTE_ADDR'];
-        //
+
+        
+        $s = new Initiate('test1', 'test2');
+        $s->run();
+        
+        //session
         $this->assertIsBool(isset($_SESSION[$ip]['wellcome']));
-        $this->assertIsBool(isset($_SESSION[$ip]['youagain']));
-        $this->assertIsBool(isset($_SESSION[$ip]['toosoon']));
-        $this->assertIsBool(isset($_SESSION[$ip]['comebacklater']));
     }
 
 }

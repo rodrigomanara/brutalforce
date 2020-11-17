@@ -41,10 +41,10 @@ abstract class Call
      * @param mixed $threshold
      * @return boolean
      */
-    private static function threshold($threshold)
+    public static function threshold($threshold)
     {
 
-        if(self::THRESHOLD < $threshold)
+        if(self::THRESHOLD > $threshold)
         {
             return false;
         }
