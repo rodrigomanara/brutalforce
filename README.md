@@ -9,7 +9,7 @@
 * Repository: https://github.com/rodrigomanara/brutalforce
 * Version: 2.0.0
 
-    composer require rmanara/brutalforce
+composer require rmanara/brutalforce
 
 Brute-Force method is used from many hackers but the <b>brutalforce</b> will 
 help you void this problem by check  the client IP and will count how many 
