@@ -22,8 +22,7 @@ abstract class KeepinMemory
      */
     protected static function setSession(string $key, $value): void
     {
-        if(isset($_SESSION[self::getIP()][$key]))
-            $_SESSION[self::getIP()][$key] = $value;
+        $_SESSION[self::getIP()][$key] = $value;  
     }
 
     /**

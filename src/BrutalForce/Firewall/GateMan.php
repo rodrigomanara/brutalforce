@@ -6,69 +6,28 @@ use BrutalForce\Cache\KeepinMemory;
 
 class GateMan extends KeepinMemory
 {
-
     protected function security()
     {
-
         $time = new \DateTime();
         $unix = $time->getTimestamp();
-
-        if($this->wellcome())
-        {
-            self::setSession('wellcome', $unix);
+        //
+        if (!self::getSession('initial')) {
+            $this->initial();
         }
-        elseif($this->youagain())
-        {
-            $diff = self::timediff(self::getSession('wellcome'), $unix);
-            if($diff->m == 0 && $diff->s < 1)
-            {
-                self::setSession('youagain', $unix);
-            }
-        }
-        elseif($this->toosoon())
-        {
-            $diff = self::timediff(self::getSession('youagain'), $unix);
-            if($diff->m == 0 && $diff->s < 1)
-            {
-                self::setSession('toosoon', $unix);
-            }
-        }
-        elseif($this->comebacklater())
-        {
-            $diff = self::timediff(self::getSession('toosoon'), $unix);
-            if($diff->m == 0 && $diff->s < 1)
-            {
-                self::setSession('comebacklater', $unix);
-            }
-        }
-        else
-        {
-
-            $diff = self::timediff(self::getSession('comebacklater'), $unix);
-            if($diff->m > 1 && $diff->s > 0)
-            {
-                //clean all
-                $this->reset();
-                return true;
-            }
-            return false;
-        }
-
-        return true;
+        //set the counter
+        $this->setLearning($this->diff('initial' , $unix));     
+        //set new counter
+        $this->initial();
     }
-
     /**
      *
-     * @return void
+     * @param string $session
+     * @param int $unix
+     * @return int
      */
-    private function reset(): void
+    private static function diff(string $session, int $unix)
     {
-
-        $list = ['wellcome', 'youagain', 'toosoon', 'comebacklater'];
-        foreach($list as $session)
-        {
-            self::UnsetSession($session);
-        }
+        return self::timediff(self::getSession($session), $unix);
     }
 
     /**
@@ -79,75 +38,48 @@ class GateMan extends KeepinMemory
      */
     private static function timediff($timea, $timeb)
     {
-        $compare = new \DateTime($timea);
-        $compareb = new \DateTime($timeb);
+        $total = $timeb > $timea
+                ? $timeb - $timea : $timea - $timeb;
 
-        $diff = $compare->diff($compareb);
-        return $diff;
+        return $total;
     }
 
     /**
      *
      * @return boolean
      */
-    private function wellcome()
+    private function initial()
     {
-        if(self::getSession('wellcome'))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        $time = new \DateTime();
+        $unix = $time->getTimestamp();
+        self::setSession('initial', $unix);
     }
-
     /**
+     * Undocumented function
      *
-     * @return boolean
+     * @param integer $data
+     * @return void
      */
-    private function youagain()
-    {
-        if(self::getSession('youagain'))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+    private static function setLearning(int $data){
+        $_SESSION['learning'][] = $data;
     }
-
+    
     /**
+     * Undocumented function
      *
-     * @return boolean
+     * @return array|null
      */
-    private function toosoon()
-    {
-        if(self::getSession('toosoon'))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+    protected static function getLearning() :?array  {
+        $learn = $_SESSION['learning'];
+        //only array shif if has memory is too high
+        return $learn;
     }
-
+    
     /**
-     *
-     * @return boolean
+     * 
      */
-    private function comebacklater()
+    public function __destruct()
     {
-        if(self::getSession('comebacklater'))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        $_SESSION['learning'] = null;
     }
-
 }

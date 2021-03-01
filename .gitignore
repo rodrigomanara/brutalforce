@@ -1,5 +1,5 @@
 firewall/
 nbproject/
 vendor/
-index.php*
+index.php
 composer.lock
