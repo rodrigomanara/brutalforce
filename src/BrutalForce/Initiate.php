@@ -23,13 +23,12 @@ class Initiate extends Pass
     {
 
         $p = $this->predict();
-        
         if($p == 0){$rate = static::RATES[0];}
         if($p > 0 && $p <= 0.5){$rate = static::RATES[1];}
         if($p > 0.5 && $p <= 0.8){$rate = static::RATES[2];}
         if($p > 0.8 && $p <= 1){$rate = static::RATES[3];}
-        if($p > 1 && $p <= 1.5){$rate = static::RATES[4];}
-        if($p > 1.5){$rate = static::RATES[5];}
+        if($p > 1 && $p <= 1.2){$rate = static::RATES[4];}
+        if($p > 1.2){$rate = static::RATES[5];}
         
         return $rate;
     }

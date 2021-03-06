@@ -69,9 +69,10 @@ class GateMan extends KeepinMemory
      *
      * @return array|null
      */
-    protected static function getLearning() :?array  {
-        $learn = self::getSession('learning');
-        return $learn;
+    protected static function getLearning() : array  {
+        $learn = $_SESSION['learning'];
+ 
+        return $learn ?? [];
     }
     
     /**

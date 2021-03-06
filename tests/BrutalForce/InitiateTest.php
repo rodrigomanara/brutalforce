@@ -13,29 +13,53 @@ use BrutalForce\Initiate;
 class InitiateTest extends TestCase
 {
     /**
-     * 
+     *
      * @return void
      */
-    public function testDDOS(): void
+    public function testLowRate(): void
     {
-
-        $_SERVER['REMOTE_ADDR'] = '192.168.0.1';
         $init = new Initiate();
 
-        $i = 0;
-        do {
+        for ($i = 0 ; $i < 10000 ;$i++) {
             //
-            if ($i > 0 && $i < 2) {
-                sleep(2);
+            if ($i % 5 == 0) {
+                usleep(500);
             }
+
+            $rate = $init->Rate();
+
+            if (isset($init::RATES[$i]) && $rate == $init::RATES[$i]) {
+                $this->assertEquals($rate, $init::RATES[$i],'Low Rate Test');
+            }
+
+            if (isset($init::RATES[$i]) && $rate !== $init::RATES[$i]) {
+                $this->assertNotEquals($rate, $init::RATES[$i], 'Low Rates if is not same');
+            }
+        }
+    }
+
+    public function testAboveLow(): void
+    {
+        $init = new Initiate();
+
+
+        for ($i = 0; $i < 10 ;$i++) {
             //
-            $i++;
-            $count = count($init::RATES);
-            for ($i = 0; $i < $count; $i++) {
-                if ($init->Rate() == $init::RATES[$i]) {
-                    $this->assertEquals($init->Rate(), $init::RATES[$i]);
+            if (sleep(2) == 0) {
+                $rate = $init->Rate() ;
+                if ($rate== $init::RATES[2]) {
+                    $this->assertEquals($rate, $init::RATES[2]);
+                }
+                if ($rate == $init::RATES[3]) {
+                    $this->assertEquals($rate, $init::RATES[3]);
+                }
+                if ($rate == $init::RATES[4]) {
+                    $this->assertEquals($rate, $init::RATES[4]);
+                }
+                if ($rate == $init::RATES[5]) {
+                    $this->assertEquals($rate, $init::RATES[5]);
                 }
             }
-        } while ($i < 1000);
+        }
     }
 }
