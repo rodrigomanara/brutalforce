@@ -70,8 +70,7 @@ class GateMan extends KeepinMemory
      * @return array|null
      */
     protected static function getLearning() :?array  {
-        $learn = $_SESSION['learning'];
-        //only array shif if has memory is too high
+        $learn = self::getSession('learning');
         return $learn;
     }
     

@@ -19,7 +19,6 @@ abstract class Pass extends GateMan
         $predicting = array_sum($predict) / count($predict);
         $total =  round($predicting , 3, PHP_ROUND_HALF_EVEN);
         
-
         return $total;
     }
     
