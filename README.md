@@ -23,16 +23,16 @@ It is very simple setup and can be used in any frameworks.
 //
 require_once './vendor/autoload.php';
 //
-use BrutalForce\Initiate;
+use BrutalForce\Initiate
 //
-$site_key = "";
-$secret = "";
-//
-$init = new Initiate($site_key, $secret);
+$init = new Initiate();
 //display on the footer after the jQuery url been loaded
-$form = $init->getScript();
-//display this google link on the header
-$header = $init->getUrl();
-//this check needs to be done after the submit
-$allowed = $init->run();
-
+//if rate "MEDIUM" as it is normall
+//if rate "MEDIUM HIGHT" as it is normall
+//if rate "LOW" it's is too quickly
+$rate = $init->Rate();
+//this point you can stop the request
+####### here is another way to use
+$predict = $init->predict();
+//if is below 0.5 the request is too quickly and it can be a robot 
+// over 0.5 then it's fine.

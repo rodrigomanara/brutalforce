@@ -1,6 +1,6 @@
 language: php
 php:
-  - '7.0' 
+  - '7.4' 
 sudo: required  
 before_script:
   - composer install --prefer-source   
