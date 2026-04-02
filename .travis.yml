@@ -1,9 +1,14 @@
 language: php
 php:
-  - '7.4' 
-sudo: required  
-before_script:
-  - composer install --prefer-source   
+  - '8.2'
+  - '8.3'
+
+install:
+  - composer install --no-interaction --prefer-dist
+
+script:
+  - vendor/bin/phpunit
+
 notifications:
   email:
     - me@rodrigomanara.co.uk

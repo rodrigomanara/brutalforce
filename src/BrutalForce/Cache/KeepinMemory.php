@@ -11,7 +11,9 @@ abstract class KeepinMemory
      */
     private static function getIP(): ?string
     {
-        return $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+        return is_string($ip) && $ip !== '' ? $ip : '0.0.0.0';
     }
 
     /**
@@ -22,7 +24,15 @@ abstract class KeepinMemory
      */
     protected static function setSession(string $key, $value): void
     {
-        $_SESSION[self::getIP()][$key] = $value;  
+        if (!isset($_SESSION) || !is_array($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        if (!isset($_SESSION[self::getIP()]) || !is_array($_SESSION[self::getIP()])) {
+            $_SESSION[self::getIP()] = [];
+        }
+
+        $_SESSION[self::getIP()][$key] = $value;
     }
 
     /**
@@ -32,9 +42,10 @@ abstract class KeepinMemory
      */
     protected static function getSession(string $key)
     {
-        if(isset($_SESSION[self::getIP()][$key])){
+        if (isset($_SESSION[self::getIP()][$key])) {
             return $_SESSION[self::getIP()][$key];
         }
+
         return null;
     }
 

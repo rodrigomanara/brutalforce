@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" 
-         backupGlobals="true" 
+<phpunit
+         backupGlobals="true"
          backupStaticAttributes="false" 
          bootstrap="./tests/bootstrap.php" 
          cacheResult="false" 
@@ -16,8 +15,7 @@
          stopOnIncomplete="false" 
          stopOnSkipped="false" 
          stopOnRisky="false" 
-         testSuiteLoaderFile="./tests/BrutalForce/InitiateTest.php" 
-         timeoutForSmallTests="1" 
+         timeoutForSmallTests="1"
          timeoutForMediumTests="10" 
          timeoutForLargeTests="60" 
          verbose="true">

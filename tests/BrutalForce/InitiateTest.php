@@ -1,6 +1,6 @@
 <?php
 
-namespace BrutalForce\Test;
+namespace BrutalForce\Test\BrutalForce;
 
 use PHPUnit\Framework\TestCase;
 use BrutalForce\Initiate;
@@ -12,54 +12,39 @@ use BrutalForce\Initiate;
  */
 class InitiateTest extends TestCase
 {
-    /**
-     *
-     * @return void
-     */
-    public function testLowRate(): void
+    protected function setUp(): void
     {
-        $init = new Initiate();
-
-        for ($i = 0 ; $i < 10000 ;$i++) {
-            //
-            if ($i % 5 == 0) {
-                usleep(500);
-            }
-
-            $rate = $init->Rate();
-
-            if (isset($init::RATES[$i]) && $rate == $init::RATES[$i]) {
-                $this->assertEquals($rate, $init::RATES[$i],'Low Rate Test');
-            }
-
-            if (isset($init::RATES[$i]) && $rate !== $init::RATES[$i]) {
-                $this->assertNotEquals($rate, $init::RATES[$i], 'Low Rates if is not same');
-            }
-        }
+        parent::setUp();
+        $_SERVER['REMOTE_ADDR'] = '192.168.0.1';
+        $_SESSION = [];
     }
 
-    public function testAboveLow(): void
+    public function testRateStartsVeryLow(): void
+    {
+        $init = new Initiate();
+        $rate = $init->Rate();
+
+        $this->assertSame(Initiate::RATES[0], $rate);
+    }
+
+    public function testPredictMovesAfterOneSecondDelay(): void
+    {
+        $init = new Initiate();
+        $init->Rate();
+        sleep(1);
+
+        $prediction = $init->predict();
+
+        $this->assertGreaterThan(0.0, $prediction);
+    }
+
+    public function testRateAlwaysReturnsKnownLabel(): void
     {
         $init = new Initiate();
 
+        $init->Rate();
+        $rate = $init->Rate();
 
-        for ($i = 0; $i < 10 ;$i++) {
-            //
-            if (sleep(2) == 0) {
-                $rate = $init->Rate() ;
-                if ($rate== $init::RATES[2]) {
-                    $this->assertEquals($rate, $init::RATES[2]);
-                }
-                if ($rate == $init::RATES[3]) {
-                    $this->assertEquals($rate, $init::RATES[3]);
-                }
-                if ($rate == $init::RATES[4]) {
-                    $this->assertEquals($rate, $init::RATES[4]);
-                }
-                if ($rate == $init::RATES[5]) {
-                    $this->assertEquals($rate, $init::RATES[5]);
-                }
-            }
-        }
+        $this->assertContains($rate, Initiate::RATES);
     }
 }

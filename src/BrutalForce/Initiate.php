@@ -7,7 +7,7 @@ use BrutalForce\Firewall\Pass;
 class Initiate extends Pass
 {
 
-    CONST RATES = [
+    public const RATES = [
         0 => 'VERY LOW',
         1 => 'LOW',
         2 => 'MEDIUM',
@@ -16,21 +16,21 @@ class Initiate extends Pass
         5 => 'VERY HIGH',
     ];
     /**
-     * 
-     * @return type
+     *
+     * @return string
      */
-    public function Rate()
+    public function Rate(): string
     {
-
         $p = $this->predict();
-        if($p == 0){$rate = static::RATES[0];}
-        if($p > 0 && $p <= 0.5){$rate = static::RATES[1];}
-        if($p > 0.5 && $p <= 0.8){$rate = static::RATES[2];}
-        if($p > 0.8 && $p <= 1){$rate = static::RATES[3];}
-        if($p > 1 && $p <= 1.2){$rate = static::RATES[4];}
-        if($p > 1.2){$rate = static::RATES[5];}
-        
-        return $rate;
+
+        return match (true) {
+            $p === 0.0 => static::RATES[0],
+            $p > 0.0 && $p <= 0.5 => static::RATES[1],
+            $p > 0.5 && $p <= 0.8 => static::RATES[2],
+            $p > 0.8 && $p <= 1.0 => static::RATES[3],
+            $p > 1.0 && $p <= 1.2 => static::RATES[4],
+            default => static::RATES[5],
+        };
     }
 
 }

@@ -6,18 +6,23 @@ use BrutalForce\Cache\KeepinMemory;
 
 class GateMan extends KeepinMemory
 {
-    protected function security()
+    private const LEARNING_WINDOW = 60;
+
+    protected function security(): void
     {
-        $time = new \DateTime();
-        $unix = $time->getTimestamp();
-        //
-        if (!self::getSession('initial')) {
-            $this->initial();
+        $unix = time();
+        $initial = self::getSession('initial');
+
+        if (!is_int($initial)) {
+            $this->initial($unix);
+            $this->setLearning(0);
+
+            return;
         }
-        //set the counter
-        $this->setLearning($this->diff('initial' , $unix));     
-        //set new counter
-        $this->initial();
+
+        // Track the request cadence per client IP.
+        $this->setLearning(self::timediff($initial, $unix));
+        $this->initial($unix);
     }
     /**
      *
@@ -25,18 +30,7 @@ class GateMan extends KeepinMemory
      * @param int $unix
      * @return int
      */
-    private static function diff(string $session, int $unix)
-    {
-        return self::timediff(self::getSession($session), $unix);
-    }
-
-    /**
-     *
-     * @param mixed $timea
-     * @param mixed $timeb
-     * @return DateTime
-     */
-    private static function timediff($timea, $timeb)
+    private static function timediff(int $timea, int $timeb): int
     {
         $total = $timeb > $timea
                 ? $timeb - $timea : $timea - $timeb;
@@ -48,10 +42,8 @@ class GateMan extends KeepinMemory
      *
      * @return boolean
      */
-    private function initial()
+    private function initial(int $unix): void
     {
-        $time = new \DateTime();
-        $unix = $time->getTimestamp();
         self::setSession('initial', $unix);
     }
     /**
@@ -60,8 +52,19 @@ class GateMan extends KeepinMemory
      * @param integer $data
      * @return void
      */
-    private static function setLearning(int $data){
-        $_SESSION['learning'][] = $data;
+    private static function setLearning(int $data): void
+    {
+        $learning = self::getSession('learning');
+        if (!is_array($learning)) {
+            $learning = [];
+        }
+
+        $learning[] = $data;
+        if (count($learning) > self::LEARNING_WINDOW) {
+            $learning = array_slice($learning, -self::LEARNING_WINDOW);
+        }
+
+        self::setSession('learning', $learning);
     }
     
     /**
@@ -69,17 +72,10 @@ class GateMan extends KeepinMemory
      *
      * @return array|null
      */
-    protected static function getLearning() : array  {
-        $learn = $_SESSION['learning'];
- 
-        return $learn ?? [];
-    }
-    
-    /**
-     * 
-     */
-    public function __destruct()
+    protected static function getLearning(): array
     {
-        $_SESSION['learning'] = null;
+        $learn = self::getSession('learning');
+
+        return is_array($learn) ? $learn : [];
     }
 }
