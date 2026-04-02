@@ -15,7 +15,7 @@ abstract class Pass extends GateMan
         // Run checks before reading the latest learning window.
         $this->security();
 
-        $predict = static::getLearning();
+        $predict = $this->getLearning();
         if ($predict === []) {
             return 0.0;
         }

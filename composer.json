@@ -23,6 +23,9 @@
     "require-dev": {
         "phpunit/phpunit": "^9.6"
     },
+    "suggest": {
+        "ext-redis": "Required when using RedisStore / Initiate::withRedis() for distributed lockouts"
+    },
     "autoload": {
         "psr-4": {
             "BrutalForce\\": "src/BrutalForce"
@@ -47,6 +50,8 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "simulate": "php scripts/simulate.php",
+        "simulate:redis": "php scripts/simulate_redis.php"
     }
 }

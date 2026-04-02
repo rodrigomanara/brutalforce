@@ -4,54 +4,28 @@ namespace BrutalForce\Cache;
 
 abstract class KeepinMemory
 {
+    protected StateStoreInterface $store;
+    protected string $clientKey;
 
-    /**
-     *
-     * @return string|null
-     */
-    private static function getIP(): ?string
+    public function __construct(StateStoreInterface $store, string $clientKey)
     {
-        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
-
-        return is_string($ip) && $ip !== '' ? $ip : '0.0.0.0';
+        $this->store = $store;
+        $this->clientKey = $clientKey !== '' ? $clientKey : '0.0.0.0';
     }
 
-    /**
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return void
-     */
-    protected static function setSession(string $key, $value): void
+    protected function setSession(string $key, $value): void
     {
-        if (!isset($_SESSION) || !is_array($_SESSION)) {
-            $_SESSION = [];
-        }
-
-        if (!isset($_SESSION[self::getIP()]) || !is_array($_SESSION[self::getIP()])) {
-            $_SESSION[self::getIP()] = [];
-        }
-
-        $_SESSION[self::getIP()][$key] = $value;
+        $this->store->set($this->clientKey, $key, $value);
     }
 
-    /**
-     *
-     * @param string $key
-     * @return mixed
-     */
-    protected static function getSession(string $key)
+    protected function getSession(string $key)
     {
-        if (isset($_SESSION[self::getIP()][$key])) {
-            return $_SESSION[self::getIP()][$key];
-        }
-
-        return null;
+        return $this->store->get($this->clientKey, $key);
     }
 
-    protected static function UnsetSession(string $key)
+    protected function unsetSession(string $key): void
     {
-        unset($_SESSION[self::getIP()][$key]);
+        $this->store->remove($this->clientKey, $key);
     }
 
 }
