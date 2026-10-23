@@ -4,3 +4,6 @@ vendor/
 index.php
 composer.lock
 .idea
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
